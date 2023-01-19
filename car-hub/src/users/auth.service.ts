@@ -43,7 +43,9 @@ export class AuthService {
 
     const hash = (await scrypt(password, salt, 32)) as Buffer;
 
-    if (storedHash !== hash.toString('hex')) {
+    const resultHash = hash.toString('hex');
+
+    if (storedHash !== resultHash) {
       throw new BadRequestException('bad password');
     }
 
