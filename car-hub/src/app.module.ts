@@ -4,9 +4,8 @@ import { APP_PIPE } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { Report } from './reports/report.entity';
+import { TypeOrmConfigService } from './config/typeorm.config';
 import { ReportsModule } from './reports/reports.module';
-import { User } from './users/users.entity';
 import { UsersModule } from './users/users.module';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const cookieSession = require('cookie-session');
@@ -17,15 +16,7 @@ const cookieSession = require('cookie-session');
       envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
     TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        return {
-          type: 'sqlite',
-          database: config.get<string>('DB_NAME'),
-          synchronize: true,
-          entities: [User, Report],
-        };
-      },
+      useClass: TypeOrmConfigService,
     }),
     UsersModule,
     ReportsModule,

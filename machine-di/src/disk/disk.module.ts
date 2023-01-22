@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PowerModule } from 'src/power/power.module';
+import { PowerModule } from '../power/power.module';
 import { DiskService } from './disk.service';
 
 @Module({
